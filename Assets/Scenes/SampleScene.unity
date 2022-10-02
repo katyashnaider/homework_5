@@ -676,6 +676,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9b8a7eb90a919ff45bc5bfca35738280, type: 3}
   m_PrefabInstance: {fileID: 378782613}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &378782615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378782614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 552542daebaae2c4a8e9232e0557c8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &378782616
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -719,6 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+  _hashAnimation: {fileID: 378782615}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +932,7 @@ GameObject:
   - component: {fileID: 1480775624}
   - component: {fileID: 1480775626}
   - component: {fileID: 1480775625}
+  - component: {fileID: 1480775627}
   m_Layer: 0
   m_Name: Alarm
   m_TagString: Untagged
@@ -966,6 +980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 1480775626}
+  _alarmControl: {fileID: 1480775627}
 --- !u!82 &1480775626
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1062,6 +1077,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1480775627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480775622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 620cffe09bc0b114b9671865652c070b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alarm: {fileID: 1480775625}
 --- !u!1 &1692598007
 GameObject:
   m_ObjectHideFlags: 0

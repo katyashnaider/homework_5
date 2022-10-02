@@ -6,6 +6,7 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AlarmControl _alarmControl;
 
     private Coroutine _coroutine;
     private float _maxVolume = 1f;
@@ -16,40 +17,55 @@ public class Alarm : MonoBehaviour
         _audioSource.volume = 0;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnEnable()
     {
-        if (collider.TryGetComponent<Player>(out Player player))
-        {
-            _coroutine = StartCoroutine(StartAlarm());
-        }
+        _alarmControl.Entered += StartAlarm;
+        _alarmControl.Leaving += StopAlarm;
     }
 
-    private void OnTriggerExit(Collider collider)
+    private void OnDisable()
     {
-        if (collider.TryGetComponent<Player>(out Player player))
-        {
-            StopAlarm();
-        }
+        _alarmControl.Entered -= StartAlarm;
+        _alarmControl.Leaving -= StopAlarm;
     }
 
-    private IEnumerator StartAlarm()
+    private void StartAlarm()
     {
-        float waitForSeconds = 1f;
-        _audioSource.Play();
-
-        while (_audioSource.volume <= _maxVolume)
+        if(_coroutine != null)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxVolume, _setStep);
-
-            yield return new WaitForSeconds(waitForSeconds);
+            StopCoroutine(_coroutine);
         }
+
+        _audioSource.volume = 0;
+        _maxVolume = 1;
+
+        _coroutine = StartCoroutine(JobAlarm());
     }
 
     private void StopAlarm()
     {
-        StopCoroutine(_coroutine);
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
 
-        _audioSource.Stop();
-        _audioSource.volume = 0;
+        _maxVolume = 0;
+
+        _coroutine = StartCoroutine(JobAlarm());
     }
+
+    private IEnumerator JobAlarm()
+    {
+        float rateStep = 1f;
+        _audioSource.Play();
+        var waitForSeconds = new WaitForSeconds(rateStep);
+
+        while (_audioSource.volume != _maxVolume)
+        {
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxVolume, _setStep);
+            
+            yield return waitForSeconds;
+        }
+    }
+
 }
