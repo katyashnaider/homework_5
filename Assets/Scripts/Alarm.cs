@@ -9,7 +9,7 @@ public class Alarm : MonoBehaviour
     [SerializeField] private AlarmControl _alarmControl;
 
     private Coroutine _coroutine;
-    private float _maxVolume = 1f;
+    private float _targetVolume = 1f;
     private float _setStep = 0.1f;
 
     private void Awake()
@@ -37,7 +37,7 @@ public class Alarm : MonoBehaviour
         }
 
         _audioSource.volume = 0;
-        _maxVolume = 1;
+        _targetVolume = 1;
 
         _coroutine = StartCoroutine(JobAlarm());
     }
@@ -49,7 +49,7 @@ public class Alarm : MonoBehaviour
             StopCoroutine(_coroutine);
         }
 
-        _maxVolume = 0;
+        _targetVolume = 0;
 
         _coroutine = StartCoroutine(JobAlarm());
     }
@@ -60,9 +60,9 @@ public class Alarm : MonoBehaviour
         _audioSource.Play();
         var waitForSeconds = new WaitForSeconds(rateStep);
 
-        while (_audioSource.volume != _maxVolume)
+        while (_audioSource.volume != _targetVolume)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxVolume, _setStep);
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _targetVolume, _setStep);
             
             yield return waitForSeconds;
         }
